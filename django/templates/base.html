@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Student Management System{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <a href="/" style="font-weight: bold; font-size: 2.5rem;">📚 Student Portal</a>
+            </div>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                {% if user.is_authenticated %}
+                <span>Welcome, <h2 style="color: white;"><strong>{{ user.username }}</strong></h2></span>
+                <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" style="background: none; border: none; color: inherit; cursor: pointer; text-decoration: underline;">Logout</button>
+                </form>
+                {% else %}
+                <a href="{% url 'login' %}">Login</a>
+                <a href="{% url 'signup' %}">Sign Up</a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="message {{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </main>
+
+    <script>
+        function togglePassword(id) {
+            var field = document.getElementById(id);
+            if (field.type === "password") {
+                field.type = "text";
+            } else {
+                field.type = "password";
+            }
+        }
+    </script>
+</body>
+
+</html>

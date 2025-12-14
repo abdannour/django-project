@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Delete Student - Confirmation{% endblock %}
+{% block content %}
+
+<div style="max-width: 600px; margin: 0 auto; display: flex; justify-content: center; align-items: center; min-height: calc(100vh - 100px);">
+    <div style="width: 100%; background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); border: 1px solid #e2e8f0; text-align: center;">
+        <div style="font-size: 3rem; margin-bottom: 1rem;">⚠️</div>
+        
+        <h1 style="margin: 0 0 0.5rem 0; font-size: 1.875rem; background: none; -webkit-text-fill-color: unset;">Delete Student</h1>
+        
+        <div style="background-color: #faf5ff; padding: 1.5rem; border-radius: 0.5rem; margin: 2rem 0; border-left: 4px solid #ef4444;">
+            <p style="margin: 0; font-size: 1.125rem; font-weight: 600;">{{ object.first_name }} {{ object.last_name }}</p>
+            <p style="margin: 0.5rem 0 0 0; color: #64748b;">{{ object.email }}</p>
+        </div>
+
+        <p style="color: #64748b; font-size: 1.05rem; margin: 1.5rem 0;">
+            Are you sure? This action cannot be undone🚨.
+        </p>
+
+        <form method="post" style="margin: 2rem 0;">
+            {% csrf_token %}
+            <div style="display: flex; gap: 1rem;">
+                <button type="submit" class="btn btn-danger" style="flex: 1; padding: 0.875rem;">
+                    🗑️ Yes, Delete Permanently
+                </button>
+                <a href="{% url 'student_list' %}" class="btn btn-outline" style="flex: 1; padding: 0.875rem;">
+                    Cancel
+                </a>
+            </div>
+        </form>
+
+        <p style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #e2e8f0; color: #94a3b8; font-size: 0.875rem;">
+            <a href="{% url 'student_list' %}" class="btn btn-outline back-link" aria-label="Return to students list">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"></circle><polyline points="12 8 8 12 12 16"></polyline><line x1="16" y1="12" x2="8" y2="12"></line></svg>
+                <span>Return to Students List</span>
+            </a>
+        </p>
+    </div>
+</div>
+
+{% endblock %}

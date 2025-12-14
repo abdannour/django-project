@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title %}Sign Up - Student Management System{% endblock %}
+{% block content %}
+
+<div style="display: flex; justify-content: center; align-items: center; min-height: calc(100vh - 100px);">
+    <div style="width: 100%; max-width: 450px;">
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <h1 style="font-size: 2rem; background: none; -webkit-text-fill-color: unset; margin: 0;">📝 Create Account</h1>
+            <p style="color: #94a3b8;">Join the student management system</p>
+        </div>
+
+        <form method="post" style="margin: 0;">
+            {% csrf_token %}
+            
+            {% if form.non_field_errors %}
+            <div style="background-color: #fee2e2; color: #991b1b; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem; border-left: 4px solid #ef4444;">
+                {% for error in form.non_field_errors %}
+                <p style="margin: 0.5rem 0;">{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.name == 'password' or field.name == 'password2' or field.name == 'password1' %}
+                <div>
+                    <input type="checkbox" onclick="togglePassword('{{ field.id_for_label }}')"> Show Password
+                </div>
+                {% endif %}
+                {% if field.errors %}
+                <div style="color: #ef4444; font-size: 0.875rem; margin-top: 0.5rem;">
+                    {% for error in field.errors %}
+                    <p style="margin: 0.25rem 0;">{{ error }}</p>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% if field.help_text %}
+                <small style="color: #94a3b8; display: block; margin-top: 0.5rem;">
+                    {{ field.help_text|safe }}
+                </small>
+                {% endif %}
+            </div>
+            {% endfor %}
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.875rem; margin-top: 1.5rem; font-size: 1rem;">
+                Create Account
+            </button>
+        </form>
+
+        <div style="text-align: center; margin-top: 1.5rem;">
+            <p style="margin: 0; color: #64748b;">Already have an account? 
+                <a href="{% url 'login' %}" style="color: #6366f1; text-decoration: none; font-weight: 600;">Sign in here</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

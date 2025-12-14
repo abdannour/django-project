@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}{% if object %}Edit{% else %}Add{% endif %} Student{% endblock %}
+{% block content %}
+
+<div style="max-width: 700px; margin: 0 auto;">
+    <div style="margin-bottom: 2rem;">
+        <a href="{% url 'student_list' %}" class="btn btn-outline back-link" aria-label="Back to students">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"></circle><polyline points="12 8 8 12 12 16"></polyline><line x1="16" y1="12" x2="8" y2="12"></line></svg>
+            <span>Back to Students</span>
+        </a>
+    </div>
+
+    <h1 style="font-size: 2rem;">
+        {% if object %}
+        ✏️ Edit Student
+        {% else %}
+        ➕ Add New Student
+        {% endif %}
+    </h1>
+
+    <form method="post" style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); border: 1px solid #e2e8f0; margin: 0;">
+        {% csrf_token %}
+        
+        {% if form.non_field_errors %}
+        <div style="background-color: #fee2e2; color: #991b1b; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem; border-left: 4px solid #ef4444;">
+            {% for error in form.non_field_errors %}
+            <p style="margin: 0.5rem 0;">{{ error }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% for field in form %}
+        <div class="form-group">
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.errors %}
+            <div style="color: #ef4444; font-size: 0.875rem; margin-top: 0.5rem;">
+                {% for error in field.errors %}
+                <p style="margin: 0.25rem 0;">{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+        <div style="display: flex; gap: 1rem; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #e2e8f0;">
+            <button type="submit" class="btn btn-primary">
+                {% if object %}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>
+                <span>Update Student</span>
+                {% else %}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"/></svg>
+                <span>Add Student</span>
+                {% endif %}
+            </button>
+            <a href="{% url 'student_list' %}" class="btn btn-outline">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
