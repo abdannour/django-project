@@ -13,11 +13,15 @@ if (-Not (Test-Path ".\.venv")) {
 Write-Host "Activating virtual environment..." -ForegroundColor Yellow
 .\.venv\Scripts\Activate.ps1
 
-# Step 3: Run migrations
+# Step 3: Install dependencies
+Write-Host "Installing dependencies..." -ForegroundColor Yellow
+pip install django whitenoise
+
+# Step 4: Run migrations
 Write-Host "Running migrations..." -ForegroundColor Yellow
 python manage.py migrate
 
-# Step 4: Start the development server
+# Step 5: Start the development server
 Write-Host "Starting Django development server..." -ForegroundColor Green
 Write-Host "Open your browser to http://127.0.0.1:8000/" -ForegroundColor Cyan
 python manage.py runserver
